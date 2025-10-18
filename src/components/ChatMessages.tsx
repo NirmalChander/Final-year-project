@@ -40,7 +40,7 @@ const ChatMessages = ({ messages }: ChatMessagesProps) => {
               <div className="flex gap-4">
                 <Avatar className="h-12 w-12 ring-2 ring-primary/20 shadow-lg">
                   <AvatarImage src={lawyerAvatar} alt="AI Lawyer" />
-                  <AvatarFallback className="bg-gradient-to-br from-primary to-accent text-white">
+                  <AvatarFallback className="bg-primary text-primary-foreground">
                     <Scale className="h-6 w-6" />
                   </AvatarFallback>
                 </Avatar>
@@ -48,7 +48,7 @@ const ChatMessages = ({ messages }: ChatMessagesProps) => {
                   <div className="backdrop-blur-xl bg-card/80 border border-border/50 rounded-2xl p-5 shadow-glass">
                     <div className="flex items-center gap-2 mb-3">
                       <span className="font-semibold text-foreground">AI Legal Counsel</span>
-                      <Badge className="text-xs bg-gradient-to-r from-primary to-accent text-white border-0">
+                      <Badge className="text-xs bg-accent text-accent-foreground border-0">
                         Advocate
                       </Badge>
                     </div>
@@ -64,7 +64,7 @@ const ChatMessages = ({ messages }: ChatMessagesProps) => {
                         {message.legalReferences.map((ref, idx) => (
                           <div
                             key={idx}
-                            className="bg-gradient-to-r from-primary/10 to-accent/10 border-l-4 border-primary p-4 rounded-r-xl backdrop-blur-sm"
+                            className="bg-accent/10 border-l-4 border-accent p-4 rounded-r-xl"
                           >
                             <p className="font-semibold text-sm text-primary">
                               {ref.section}
@@ -83,7 +83,7 @@ const ChatMessages = ({ messages }: ChatMessagesProps) => {
             ) : (
               <div className="flex gap-4 justify-end">
                 <div className="flex-1 flex flex-col items-end">
-                  <div className="bg-gradient-to-r from-primary to-accent text-white rounded-2xl p-5 shadow-glow max-w-2xl backdrop-blur-xl">
+                  <div className="bg-primary text-primary-foreground rounded-2xl p-5 shadow-elevated max-w-2xl">
                     <p className="leading-relaxed whitespace-pre-wrap">{message.content}</p>
                   </div>
                   <span className="text-xs text-muted-foreground mt-2">
@@ -91,7 +91,7 @@ const ChatMessages = ({ messages }: ChatMessagesProps) => {
                   </span>
                 </div>
                 <Avatar className="h-12 w-12 ring-2 ring-primary/20">
-                  <AvatarFallback className="bg-gradient-to-br from-muted to-secondary">
+                  <AvatarFallback className="bg-muted">
                     <User className="h-6 w-6 text-foreground" />
                   </AvatarFallback>
                 </Avatar>

@@ -52,8 +52,8 @@ const ChatLayout = () => {
 
   return (
     <div className="flex h-screen w-full overflow-hidden bg-background relative">
-      {/* Animated gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-accent/5 dark:from-primary/10 dark:via-background dark:to-accent/10" />
+      {/* Subtle background pattern */}
+      <div className="absolute inset-0 bg-background" />
       
       {/* Sidebar */}
       <div
@@ -66,32 +66,30 @@ const ChatLayout = () => {
 
       {/* Main Chat Area */}
       <div className="flex-1 flex flex-col relative z-10">
-        {/* Modern Glass Header */}
-        <header className="h-20 backdrop-blur-xl bg-card/50 border-b border-border/50 flex items-center justify-between px-6 shadow-sm">
-          <div className="flex items-center gap-4">
+        {/* Clean Professional Header */}
+        <header className="h-16 bg-primary border-b border-primary-dark flex items-center justify-between px-8 shadow-elevated">
+          <div className="flex items-center gap-6">
             <Button
               variant="ghost"
               size="icon"
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-              className="hover:bg-muted rounded-xl transition-all"
+              className="hover:bg-primary-light text-primary-foreground"
             >
               {isSidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </Button>
-            <div className="flex items-center gap-3">
-              <div className="relative">
-                <Scale className="h-8 w-8 text-primary animate-float" />
-                <div className="absolute inset-0 blur-lg bg-primary/30 rounded-full" />
-              </div>
+            <div className="flex items-center gap-4">
+              <Scale className="h-7 w-7 text-accent" />
               <div>
-                <h1 className="text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">AI Legal Counsel</h1>
-                <p className="text-sm text-muted-foreground">Indian Legal Assistant</p>
+                <h1 className="text-lg font-bold text-primary-foreground">AI Legal Counsel</h1>
+                <p className="text-xs text-primary-foreground/80">Indian Legal Assistant</p>
               </div>
             </div>
           </div>
-          <div className="flex items-center gap-3">
-            <Shield className="h-5 w-5 text-primary" />
-            <Gavel className="h-5 w-5 text-accent" />
-            <BookOpen className="h-5 w-5 text-primary" />
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 px-3 py-1.5 bg-primary-light rounded-lg">
+              <Shield className="h-4 w-4 text-accent" />
+              <span className="text-xs text-primary-foreground font-medium">Secure</span>
+            </div>
           </div>
         </header>
 

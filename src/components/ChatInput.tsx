@@ -54,7 +54,7 @@ const ChatInput = ({ onSend }: ChatInputProps) => {
           <Button
             onClick={handleSend}
             disabled={!message.trim()}
-            className="mb-2 bg-gradient-to-r from-primary to-accent hover:shadow-glow text-white disabled:opacity-50 disabled:hover:shadow-none rounded-xl h-10 px-4 transition-all hover:scale-105"
+            className="mb-2 bg-accent hover:bg-accent-light text-accent-foreground disabled:opacity-50 rounded-xl h-10 px-4 transition-all hover:scale-105"
           >
             <Send className="h-5 w-5" />
           </Button>

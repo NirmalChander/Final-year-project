@@ -13,27 +13,28 @@ const ChatSidebar = () => {
 
   const quickLinks = [
     { icon: BookText, label: "Legal Dictionary", color: "text-accent" },
-    { icon: FileText, label: "Document Templates", color: "text-accent-glow" },
+    { icon: FileText, label: "Document Templates", color: "text-accent" },
     { icon: Shield, label: "Rights & Duties", color: "text-accent" },
   ];
 
   return (
     <div className="h-full flex flex-col backdrop-blur-xl bg-card/80 border-r border-border/50 p-4">
-      {/* Logo Section */}
-      <div className="flex items-center justify-between mb-6 p-4 bg-gradient-to-r from-primary to-accent rounded-2xl shadow-glow relative overflow-hidden">
-        <div className="flex items-center gap-3 relative z-10">
-          <Scale className="h-8 w-8 text-white animate-float" />
+      {/* Clean Logo Section */}
+      <div className="flex items-center justify-between mb-6 p-4 bg-primary rounded-xl">
+        <div className="flex items-center gap-3">
+          <div className="p-2 bg-accent rounded-lg">
+            <Scale className="h-6 w-6 text-accent-foreground" />
+          </div>
           <div>
-            <h2 className="font-bold text-white">Legal AI</h2>
-            <p className="text-xs text-white/80">Your Advocate</p>
+            <h2 className="font-bold text-primary-foreground">Legal AI</h2>
+            <p className="text-xs text-primary-foreground/80">Your Advocate</p>
           </div>
         </div>
         <ThemeToggle />
-        <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent" />
       </div>
 
       {/* New Chat Button */}
-      <Button className="w-full mb-4 bg-gradient-to-r from-primary to-accent hover:shadow-glow text-white font-semibold rounded-xl h-12 transition-all hover:scale-[1.02]">
+      <Button className="w-full mb-4 bg-accent hover:bg-accent-light text-accent-foreground font-semibold rounded-xl h-12 transition-all hover:scale-[1.02]">
         <Plus className="mr-2 h-5 w-5" />
         New Consultation
       </Button>
@@ -73,7 +74,7 @@ const ChatSidebar = () => {
             <Button
               key={index}
               variant="ghost"
-              className="w-full justify-start hover:bg-gradient-to-r hover:from-primary/10 hover:to-accent/10 transition-all rounded-xl group"
+              className="w-full justify-start hover:bg-primary/10 transition-all rounded-xl group"
             >
               <link.icon className={`mr-3 h-4 w-4 ${link.color} group-hover:scale-110 transition-transform`} />
               <span className="group-hover:text-primary transition-colors">{link.label}</span>
