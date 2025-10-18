@@ -25,13 +25,13 @@ const ChatInput = ({ onSend }: ChatInputProps) => {
   };
 
   return (
-    <div className="border-t border-border/50 backdrop-blur-xl bg-card/80 p-4">
+    <div className="border-t border-border bg-card p-4">
       <div className="max-w-4xl mx-auto">
         <div className="flex items-end gap-2">
           <Button
             variant="ghost"
             size="icon"
-            className="mb-2 hover:bg-muted rounded-xl transition-all hover:scale-105"
+            className="mb-1 hover:bg-muted rounded-lg"
           >
             <Paperclip className="h-5 w-5" />
           </Button>
@@ -40,27 +40,27 @@ const ChatInput = ({ onSend }: ChatInputProps) => {
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               onKeyPress={handleKeyPress}
-              placeholder="Ask your legal question here..."
-              className="min-h-[60px] max-h-[200px] resize-none pr-12 bg-background/50 backdrop-blur-sm border-border/50 focus:border-primary focus:ring-primary rounded-2xl transition-all"
+              placeholder="Type your legal question..."
+              className="min-h-[48px] max-h-[160px] resize-none pr-12 bg-background border-border focus:border-primary focus:ring-1 focus:ring-primary rounded-xl text-sm transition-all"
             />
           </div>
           <Button
             variant="ghost"
             size="icon"
-            className="mb-2 hover:bg-muted rounded-xl transition-all hover:scale-105"
+            className="mb-1 hover:bg-muted rounded-lg"
           >
             <Mic className="h-5 w-5" />
           </Button>
           <Button
             onClick={handleSend}
             disabled={!message.trim()}
-            className="mb-2 bg-accent hover:bg-accent-light text-accent-foreground disabled:opacity-50 rounded-xl h-10 px-4 transition-all hover:scale-105"
+            className="mb-1 bg-accent hover:bg-accent-light text-accent-foreground disabled:opacity-50 rounded-lg h-10 w-10 p-0 transition-all shadow-sm"
           >
-            <Send className="h-5 w-5" />
+            <Send className="h-4 w-4" />
           </Button>
         </div>
-        <p className="text-xs text-muted-foreground mt-3 text-center">
-          This AI provides general legal information. Consult a qualified lawyer for specific legal advice.
+        <p className="text-xs text-muted-foreground mt-2 text-center">
+          For general legal information only. Consult a qualified lawyer for advice.
         </p>
       </div>
     </div>

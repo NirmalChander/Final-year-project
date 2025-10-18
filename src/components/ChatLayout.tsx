@@ -51,14 +51,11 @@ const ChatLayout = () => {
   };
 
   return (
-    <div className="flex h-screen w-full overflow-hidden bg-background relative">
-      {/* Subtle background pattern */}
-      <div className="absolute inset-0 bg-background" />
-      
+    <div className="flex h-screen w-full overflow-hidden bg-secondary">
       {/* Sidebar */}
       <div
         className={`${
-          isSidebarOpen ? "w-80" : "w-0"
+          isSidebarOpen ? "w-72" : "w-0"
         } transition-all duration-300 ease-in-out relative z-10`}
       >
         {isSidebarOpen && <ChatSidebar />}
@@ -66,29 +63,30 @@ const ChatLayout = () => {
 
       {/* Main Chat Area */}
       <div className="flex-1 flex flex-col relative z-10">
-        {/* Clean Professional Header */}
-        <header className="h-16 bg-primary border-b border-primary-dark flex items-center justify-between px-8 shadow-elevated">
-          <div className="flex items-center gap-6">
+        {/* Modern Minimal Header */}
+        <header className="h-14 bg-card border-b border-border flex items-center justify-between px-6">
+          <div className="flex items-center gap-4">
             <Button
               variant="ghost"
               size="icon"
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-              className="hover:bg-primary-light text-primary-foreground"
+              className="hover:bg-muted rounded-lg"
             >
               {isSidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </Button>
-            <div className="flex items-center gap-4">
-              <Scale className="h-7 w-7 text-accent" />
+            <div className="flex items-center gap-3">
+              <div className="p-1.5 bg-primary rounded-lg">
+                <Scale className="h-5 w-5 text-primary-foreground" />
+              </div>
               <div>
-                <h1 className="text-lg font-bold text-primary-foreground">AI Legal Counsel</h1>
-                <p className="text-xs text-primary-foreground/80">Indian Legal Assistant</p>
+                <h1 className="text-base font-semibold text-foreground">AI Legal Assistant</h1>
               </div>
             </div>
           </div>
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 px-3 py-1.5 bg-primary-light rounded-lg">
-              <Shield className="h-4 w-4 text-accent" />
-              <span className="text-xs text-primary-foreground font-medium">Secure</span>
+          <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5 px-2.5 py-1 bg-muted rounded-md">
+              <div className="w-1.5 h-1.5 bg-accent rounded-full animate-pulse" />
+              <span className="text-xs text-muted-foreground font-medium">Online</span>
             </div>
           </div>
         </header>

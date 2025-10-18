@@ -18,65 +18,65 @@ const ChatSidebar = () => {
   ];
 
   return (
-    <div className="h-full flex flex-col backdrop-blur-xl bg-card/80 border-r border-border/50 p-4">
-      {/* Clean Logo Section */}
-      <div className="flex items-center justify-between mb-6 p-4 bg-primary rounded-xl">
-        <div className="flex items-center gap-3">
-          <div className="p-2 bg-accent rounded-lg">
-            <Scale className="h-6 w-6 text-accent-foreground" />
+    <div className="h-full flex flex-col bg-card border-r border-border p-3">
+      {/* Modern Minimal Logo Section */}
+      <div className="flex items-center justify-between mb-4 px-3 py-2">
+        <div className="flex items-center gap-2.5">
+          <div className="p-2 bg-primary rounded-lg shadow-sm">
+            <Scale className="h-4 w-4 text-primary-foreground" />
           </div>
           <div>
-            <h2 className="font-bold text-primary-foreground">Legal AI</h2>
-            <p className="text-xs text-primary-foreground/80">Your Advocate</p>
+            <h2 className="text-sm font-semibold text-foreground">LegalAI</h2>
+            <p className="text-xs text-muted-foreground">Assistant</p>
           </div>
         </div>
         <ThemeToggle />
       </div>
 
       {/* New Chat Button */}
-      <Button className="w-full mb-4 bg-accent hover:bg-accent-light text-accent-foreground font-semibold rounded-xl h-12 transition-all hover:scale-[1.02]">
-        <Plus className="mr-2 h-5 w-5" />
-        New Consultation
+      <Button className="w-full mb-3 bg-accent hover:bg-accent-light text-accent-foreground font-medium rounded-lg h-10 transition-all shadow-sm">
+        <Plus className="mr-2 h-4 w-4" />
+        New Chat
       </Button>
 
-      <Separator className="mb-4" />
+      <Separator className="mb-3" />
 
       {/* Recent Chats */}
-      <div className="mb-4">
-        <h3 className="text-sm font-semibold text-muted-foreground mb-3 flex items-center gap-2">
-          <Clock className="h-4 w-4" />
-          Recent Consultations
+      <div className="mb-3">
+        <h3 className="text-xs font-semibold text-muted-foreground mb-2 px-3 flex items-center gap-2">
+          <Clock className="h-3.5 w-3.5" />
+          Recent
         </h3>
-        <ScrollArea className="h-64">
-          <div className="space-y-2">
+        <ScrollArea className="h-56">
+          <div className="space-y-1 px-1">
             {recentChats.map((chat) => (
               <button
                 key={chat.id}
-                className="w-full text-left p-3 rounded-xl hover:bg-muted/50 backdrop-blur-sm transition-all group hover:shadow-sm border border-transparent hover:border-border/50"
+                className="w-full text-left px-3 py-2 rounded-lg hover:bg-muted transition-all group"
               >
                 <p className="text-sm font-medium text-foreground group-hover:text-primary truncate transition-colors">
                   {chat.title}
                 </p>
-                <p className="text-xs text-muted-foreground mt-1">{chat.time}</p>
+                <p className="text-xs text-muted-foreground mt-0.5">{chat.time}</p>
               </button>
             ))}
           </div>
         </ScrollArea>
       </div>
 
-      <Separator className="my-4" />
+      <Separator className="my-3" />
 
       {/* Quick Links */}
       <div className="flex-1">
-        <h3 className="text-sm font-semibold text-muted-foreground mb-3">Quick Resources</h3>
-        <div className="space-y-2">
+        <h3 className="text-xs font-semibold text-muted-foreground mb-2 px-3">Resources</h3>
+        <div className="space-y-0.5 px-1">
           {quickLinks.map((link, index) => (
             <Button
               key={index}
               variant="ghost"
-              className="w-full justify-start hover:bg-primary/10 transition-all rounded-xl group"
+              className="w-full justify-start hover:bg-muted transition-all rounded-lg h-9 text-sm group"
             >
-              <link.icon className={`mr-3 h-4 w-4 ${link.color} group-hover:scale-110 transition-transform`} />
+              <link.icon className={`mr-2.5 h-4 w-4 ${link.color} group-hover:scale-110 transition-transform`} />
               <span className="group-hover:text-primary transition-colors">{link.label}</span>
             </Button>
           ))}
@@ -84,10 +84,10 @@ const ChatSidebar = () => {
       </div>
 
       {/* Footer Info */}
-      <div className="mt-auto pt-4 border-t border-border">
+      <div className="mt-auto pt-3 border-t border-border px-3">
         <div className="flex items-center gap-2 text-xs text-muted-foreground">
-          <Shield className="h-3 w-3" />
-          <span>Secure & Confidential</span>
+          <Shield className="h-3.5 w-3.5 text-accent" />
+          <span>Encrypted & Private</span>
         </div>
       </div>
     </div>
