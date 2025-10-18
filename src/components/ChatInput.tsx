@@ -25,13 +25,13 @@ const ChatInput = ({ onSend }: ChatInputProps) => {
   };
 
   return (
-    <div className="border-t border-border bg-card p-4">
+    <div className="border-t border-border/50 backdrop-blur-xl bg-card/80 p-4">
       <div className="max-w-4xl mx-auto">
         <div className="flex items-end gap-2">
           <Button
             variant="ghost"
             size="icon"
-            className="mb-2 hover:bg-muted"
+            className="mb-2 hover:bg-muted rounded-xl transition-all hover:scale-105"
           >
             <Paperclip className="h-5 w-5" />
           </Button>
@@ -41,25 +41,25 @@ const ChatInput = ({ onSend }: ChatInputProps) => {
               onChange={(e) => setMessage(e.target.value)}
               onKeyPress={handleKeyPress}
               placeholder="Ask your legal question here..."
-              className="min-h-[60px] max-h-[200px] resize-none pr-12 bg-background border-border focus:border-accent focus:ring-accent"
+              className="min-h-[60px] max-h-[200px] resize-none pr-12 bg-background/50 backdrop-blur-sm border-border/50 focus:border-primary focus:ring-primary rounded-2xl transition-all"
             />
           </div>
           <Button
             variant="ghost"
             size="icon"
-            className="mb-2 hover:bg-muted"
+            className="mb-2 hover:bg-muted rounded-xl transition-all hover:scale-105"
           >
             <Mic className="h-5 w-5" />
           </Button>
           <Button
             onClick={handleSend}
             disabled={!message.trim()}
-            className="mb-2 bg-accent hover:bg-accent-glow text-accent-foreground shadow-accent disabled:opacity-50"
+            className="mb-2 bg-gradient-to-r from-primary to-accent hover:shadow-glow text-white disabled:opacity-50 disabled:hover:shadow-none rounded-xl h-10 px-4 transition-all hover:scale-105"
           >
             <Send className="h-5 w-5" />
           </Button>
         </div>
-        <p className="text-xs text-muted-foreground mt-2 text-center">
+        <p className="text-xs text-muted-foreground mt-3 text-center">
           This AI provides general legal information. Consult a qualified lawyer for specific legal advice.
         </p>
       </div>

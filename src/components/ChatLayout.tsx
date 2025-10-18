@@ -51,41 +51,47 @@ const ChatLayout = () => {
   };
 
   return (
-    <div className="flex h-screen w-full overflow-hidden bg-gradient-to-br from-background via-secondary to-background">
+    <div className="flex h-screen w-full overflow-hidden bg-background relative">
+      {/* Animated gradient background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-accent/5 dark:from-primary/10 dark:via-background dark:to-accent/10" />
+      
       {/* Sidebar */}
       <div
         className={`${
           isSidebarOpen ? "w-80" : "w-0"
-        } transition-all duration-300 ease-in-out border-r border-border bg-card`}
+        } transition-all duration-300 ease-in-out relative z-10`}
       >
         {isSidebarOpen && <ChatSidebar />}
       </div>
 
       {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col">
-        {/* Header */}
-        <header className="h-20 border-b border-border bg-primary shadow-legal flex items-center justify-between px-6">
+      <div className="flex-1 flex flex-col relative z-10">
+        {/* Modern Glass Header */}
+        <header className="h-20 backdrop-blur-xl bg-card/50 border-b border-border/50 flex items-center justify-between px-6 shadow-sm">
           <div className="flex items-center gap-4">
             <Button
               variant="ghost"
               size="icon"
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-              className="hover:bg-primary-light"
+              className="hover:bg-muted rounded-xl transition-all"
             >
-              {isSidebarOpen ? <X className="h-5 w-5 text-primary-foreground" /> : <Menu className="h-5 w-5 text-primary-foreground" />}
+              {isSidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </Button>
             <div className="flex items-center gap-3">
-              <Scale className="h-8 w-8 text-accent animate-float" />
+              <div className="relative">
+                <Scale className="h-8 w-8 text-primary animate-float" />
+                <div className="absolute inset-0 blur-lg bg-primary/30 rounded-full" />
+              </div>
               <div>
-                <h1 className="text-xl font-bold text-primary-foreground">AI Legal Counsel</h1>
-                <p className="text-sm text-primary-foreground/70">Indian Legal Assistant</p>
+                <h1 className="text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">AI Legal Counsel</h1>
+                <p className="text-sm text-muted-foreground">Indian Legal Assistant</p>
               </div>
             </div>
           </div>
-          <div className="flex items-center gap-4">
-            <Shield className="h-5 w-5 text-accent-glow" />
-            <Gavel className="h-5 w-5 text-accent-glow" />
-            <BookOpen className="h-5 w-5 text-accent-glow" />
+          <div className="flex items-center gap-3">
+            <Shield className="h-5 w-5 text-primary" />
+            <Gavel className="h-5 w-5 text-accent" />
+            <BookOpen className="h-5 w-5 text-primary" />
           </div>
         </header>
 

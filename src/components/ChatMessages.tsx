@@ -38,17 +38,17 @@ const ChatMessages = ({ messages }: ChatMessagesProps) => {
           >
             {message.type === "ai" ? (
               <div className="flex gap-4">
-                <Avatar className="h-12 w-12 border-2 border-accent shadow-accent">
+                <Avatar className="h-12 w-12 ring-2 ring-primary/20 shadow-lg">
                   <AvatarImage src={lawyerAvatar} alt="AI Lawyer" />
-                  <AvatarFallback className="bg-primary text-primary-foreground">
+                  <AvatarFallback className="bg-gradient-to-br from-primary to-accent text-white">
                     <Scale className="h-6 w-6" />
                   </AvatarFallback>
                 </Avatar>
                 <div className="flex-1">
-                  <div className="bg-card border border-border rounded-lg p-5 shadow-legal">
-                    <div className="flex items-center gap-2 mb-2">
+                  <div className="backdrop-blur-xl bg-card/80 border border-border/50 rounded-2xl p-5 shadow-glass">
+                    <div className="flex items-center gap-2 mb-3">
                       <span className="font-semibold text-foreground">AI Legal Counsel</span>
-                      <Badge variant="outline" className="text-xs border-accent text-accent">
+                      <Badge className="text-xs bg-gradient-to-r from-primary to-accent text-white border-0">
                         Advocate
                       </Badge>
                     </div>
@@ -57,16 +57,16 @@ const ChatMessages = ({ messages }: ChatMessagesProps) => {
                     </p>
                     {message.legalReferences && (
                       <div className="mt-4 space-y-2">
-                        <div className="flex items-center gap-2 text-sm font-semibold text-accent">
+                        <div className="flex items-center gap-2 text-sm font-semibold text-primary">
                           <BookOpen className="h-4 w-4" />
                           Legal References
                         </div>
                         {message.legalReferences.map((ref, idx) => (
                           <div
                             key={idx}
-                            className="bg-accent/5 border-l-4 border-accent p-3 rounded-r-lg"
+                            className="bg-gradient-to-r from-primary/10 to-accent/10 border-l-4 border-primary p-4 rounded-r-xl backdrop-blur-sm"
                           >
-                            <p className="font-semibold text-sm text-accent-foreground">
+                            <p className="font-semibold text-sm text-primary">
                               {ref.section}
                             </p>
                             <p className="text-xs text-muted-foreground mt-1">{ref.description}</p>
@@ -83,16 +83,16 @@ const ChatMessages = ({ messages }: ChatMessagesProps) => {
             ) : (
               <div className="flex gap-4 justify-end">
                 <div className="flex-1 flex flex-col items-end">
-                  <div className="bg-primary text-primary-foreground rounded-lg p-5 shadow-legal max-w-2xl">
+                  <div className="bg-gradient-to-r from-primary to-accent text-white rounded-2xl p-5 shadow-glow max-w-2xl backdrop-blur-xl">
                     <p className="leading-relaxed whitespace-pre-wrap">{message.content}</p>
                   </div>
                   <span className="text-xs text-muted-foreground mt-2">
                     {message.timestamp.toLocaleTimeString()}
                   </span>
                 </div>
-                <Avatar className="h-12 w-12 border-2 border-primary">
-                  <AvatarFallback className="bg-muted">
-                    <User className="h-6 w-6" />
+                <Avatar className="h-12 w-12 ring-2 ring-primary/20">
+                  <AvatarFallback className="bg-gradient-to-br from-muted to-secondary">
+                    <User className="h-6 w-6 text-foreground" />
                   </AvatarFallback>
                 </Avatar>
               </div>
