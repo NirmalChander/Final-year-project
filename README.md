@@ -1,73 +1,131 @@
-# Welcome to your Lovable project
+# Legal Aura UI - AI Legal Assistant
 
-## Project info
+An AI-powered legal assistant application built with React, TypeScript, and Google's Gemini API. This application provides users with legal information and guidance based on Indian law, with a focus on the Constitution of India.
 
-**URL**: https://lovable.dev/projects/8fa0072f-01a9-4cbd-911f-c3bbe4a744b0
+## Features
 
-## How can I edit this code?
+- **AI-Powered Legal Assistance**: Get responses from Google's Gemini AI trained on Indian legal principles
+- **Multiple Model Support**: Choose from various Gemini models including Gemini 2.5 Flash, Pro, and legacy models
+- **Chat History Management**: Start new chats, switch between conversations, and persistent chat storage
+- **Delete Conversations**: Remove unwanted chat sessions with the delete button
+- **Legal Reference Extraction**: Automatic extraction and display of relevant legal sections and articles
+- **Modern UI**: Beautiful, responsive interface built with shadcn/ui and Tailwind CSS
+- **Dark/Light Theme Support**: Toggle between themes for comfortable viewing
+- **Real-time Responses**: Live chat interface with typing indicators and loading states
 
-There are several ways of editing your application.
+## Setup Instructions
 
-**Use Lovable**
+### Prerequisites
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/8fa0072f-01a9-4cbd-911f-c3bbe4a744b0) and start prompting.
+- Node.js & npm installed ([install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating))
+- Google Gemini API key
 
-Changes made via Lovable will be committed automatically to this repo.
+### Installation
 
-**Use your preferred IDE**
+1. **Clone the repository**
+   ```sh
+   git clone <YOUR_GIT_URL>
+   cd legal-aura-ui
+   ```
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+2. **Install dependencies**
+   ```sh
+   npm install
+   ```
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+3. **Set up Gemini API Key**
 
-Follow these steps:
+   Get your API key from [Google AI Studio](https://makersuite.google.com/app/apikey).
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+   Create a `.env` file in the root directory:
+   ```env
+   VITE_GEMINI_API_KEY=your_actual_gemini_api_key_here
+   ```
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+4. **Start the development server**
+   ```sh
+   npm run dev
+   ```
 
-# Step 3: Install the necessary dependencies.
-npm i
+## Usage
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+- **Start a new chat**: Click the "New Chat" button in the sidebar
+- **Ask legal questions**: Type your questions in the input field at the bottom
+- **View chat history**: All conversations are automatically saved and can be accessed from the sidebar
+- **Switch between chats**: Click on any chat in the sidebar to switch to it
+- **Delete conversations**: Hover over a chat in the sidebar and click the trash icon to delete it
+- **Select AI model**: Use the model selector in the header to choose between different Gemini models
+- **Legal references**: AI responses include relevant sections and articles automatically
+
+## Important Disclaimer
+
+⚖️ **This application provides general legal information only. It is not a substitute for professional legal advice. Always consult qualified legal professionals for specific legal matters.**
+
+## Available Gemini Models
+
+The application supports the following Gemini models:
+
+- **gemini-2.5-flash** - Latest fast model (Default)
+- **gemini-2.5-pro** - Latest high-performance model
+- **gemini-2.0-flash** - Previous generation fast model
+- **gemini-2.0-flash-lite** - Lightweight version of 2.0 Flash
+- **gemini-flash-latest** - Always points to latest Flash model
+- **gemini-pro-latest** - Always points to latest Pro model
+- **models/gemini-2.5-flash** - Alternative naming for 2.5 Flash
+- **models/gemini-2.5-pro** - Alternative naming for 2.5 Pro
+- **models/gemini-2.0-flash** - Alternative naming for 2.0 Flash
+
+You can switch between models using the dropdown in the header. Different models may offer varying response quality, speed, and capabilities.
+
+## Project Structure
+
+```
+src/
+├── components/
+│   ├── ui/           # Reusable UI components
+│   ├── ChatLayout.tsx    # Main chat interface
+│   ├── ChatMessages.tsx  # Message display component
+│   ├── ChatInput.tsx     # Message input component
+│   ├── ChatSidebar.tsx   # Sidebar with chat history
+│   └── ThemeToggle.tsx   # Theme switching
+├── hooks/
+│   └── useChatHistory.ts # Chat management hook
+├── lib/
+│   └── gemini.ts         # Gemini API service
+└── pages/
+    ├── Index.tsx
+    └── NotFound.tsx
 ```
 
-**Edit a file directly in GitHub**
+## Development
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```sh
+# Development server
+npm run dev
 
-**Use GitHub Codespaces**
+# Build for production
+npm run build
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+# Preview production build
+npm run preview
 
-## What technologies are used for this project?
+# Run linting
+npm run lint
+```
 
-This project is built with:
+## Deployment
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+Deploy easily using [Lovable](https://lovable.dev/projects/8fa0072f-01a9-4cbd-911f-c3bbe4a744b0):
 
-## How can I deploy this project?
+1. Open your Lovable project
+2. Click Share → Publish
+3. Your app will be live!
 
-Simply open [Lovable](https://lovable.dev/projects/8fa0072f-01a9-4cbd-911f-c3bbe4a744b0) and click on Share -> Publish.
+## Custom Domain
 
-## Can I connect a custom domain to my Lovable project?
+To connect a custom domain:
+1. Navigate to Project > Settings > Domains
+2. Click "Connect Domain"
+3. Follow the setup instructions
 
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Read more: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)

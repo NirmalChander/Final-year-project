@@ -23,11 +23,11 @@ All colors MUST be HSL.
     --primary-light: 28 45% 50%;
     --primary-dark: 28 55% 30%;
 
-    /* Modern gold accent */
-    --accent: 45 100% 51%;
+    /* Darker orange accent */
+    --accent: 32 100% 45%;
     --accent-foreground: 28 50% 20%;
-    --accent-light: 45 100% 61%;
-    --accent-muted: 45 90% 45%;
+    --accent-light: 32 100% 55%;
+    --accent-muted: 32 90% 38%;
 
     /* Modern neutrals */
     --secondary: 30 10% 96%;
@@ -68,10 +68,16 @@ All colors MUST be HSL.
     --sidebar-border: 220 13% 91%;
 
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* Indian flag gradient colors for light theme */
+    --gradient-start: 28 100% 55%; /* More vibrant orange */
+    --gradient-middle: 0 0% 95%; /* White */
+    --gradient-brown: 28 45% 35%; /* Brown accent */
+    --gradient-end: 120 60% 35%; /* Green */
   }
 
   .dark {
-    --background: 30 20% 11%;
+    --background: 30 20% 5%;
     --foreground: 30 10% 95%;
 
     --card: 30 15% 14%;
@@ -85,10 +91,10 @@ All colors MUST be HSL.
     --primary-light: 28 55% 60%;
     --primary-dark: 28 60% 40%;
 
-    --accent: 45 100% 60%;
+    --accent: 32 100% 65%;
     --accent-foreground: 30 20% 11%;
-    --accent-light: 45 100% 70%;
-    --accent-muted: 45 90% 55%;
+    --accent-light: 32 100% 75%;
+    --accent-muted: 32 90% 60%;
 
     --secondary: 30 15% 18%;
     --secondary-foreground: 30 10% 95%;
@@ -116,6 +122,12 @@ All colors MUST be HSL.
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* Indian flag gradient colors for dark theme - subtly visible */
+    --gradient-start: 28 95% 50%; /* More vibrant orange in dark mode */
+    --gradient-middle: 0 0% 65%; /* Very soft white */
+    --gradient-brown: 28 35% 25%; /* Subdued brown accent */
+    --gradient-end: 120 30% 25%; /* Very muted green */
   }
 }
 
@@ -127,4 +139,108 @@ All colors MUST be HSL.
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Chat bubble styles */
+.chat-bubble-user {
+  border-radius: 1.25rem 0.25rem 1.25rem 1.25rem;
+}
+
+.chat-bubble-ai {
+  border-radius: 0.25rem 1.25rem 1.25rem 1.25rem;
+}
+
+/* Custom animations for Login page */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounce-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slide-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes gradient-x {
+  0%, 100% {
+    background-size: 200% 200%;
+    background-position: left center;
+  }
+  50% {
+    background-size: 200% 200%;
+    background-position: right center;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.8s ease-out forwards;
+}
+
+.animate-bounce-in {
+  animation: bounce-in 0.8s ease-out forwards;
+}
+
+.animate-slide-in-up {
+  animation: slide-in-up 0.6s ease-out forwards;
+}
+
+.animate-gradient-x {
+  animation: gradient-x 3s ease infinite;
+  background-size: 200% 200%;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 4s ease-in-out infinite;
 }
