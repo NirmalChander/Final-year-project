@@ -1,4 +1,4 @@
-# Legal Aura UI
+# Legal chatbot UI
 
 A lightweight, accessible, component-driven UI library for legal applications. Provides reusable React components, design tokens, and documentation to accelerate building consistent user interfaces.
 
