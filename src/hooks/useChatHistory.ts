@@ -70,6 +70,8 @@ export const useChatHistory = () => {
   const [sessions, setSessions] = useState<ChatSession[]>([]);
   const [currentSessionId, setCurrentSessionId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [savingMessages, setSavingMessages] = useState<Set<string>>(new Set()); // Track messages being saved
+  const [failedMessages, setFailedMessages] = useState<Set<string>>(new Set()); // Track messages that failed to save
 
   // Clean up duplicate sessions (same title and similar creation time)
   const cleanupDuplicateSessions = async (userId: string) => {
@@ -344,51 +346,154 @@ export const useChatHistory = () => {
       timestamp: new Date()
     };
 
-    try {
-      // Add to Supabase
-      await createChatMessage(convertLocalMessageToDB(newMessage, currentSessionId));
+    // Add to local state immediately (optimistic update)
+    setSessions(prev => prev.map(session =>
+      session.id === currentSessionId
+        ? {
+            ...session,
+            messages: [...session.messages, newMessage],
+            updatedAt: new Date(),
+            title: session.title === 'New Chat' && message.type === 'user'
+              ? message.content.slice(0, 50) + (message.content.length > 50 ? '...' : '')
+              : session.title
+          }
+        : session
+    ));
 
-      // Update local state
-      setSessions(prev => prev.map(session =>
-        session.id === currentSessionId
-          ? {
-              ...session,
-              messages: [...session.messages, newMessage],
-              updatedAt: new Date(),
-              title: session.title === 'New Chat' && message.type === 'user'
-                ? message.content.slice(0, 50) + (message.content.length > 50 ? '...' : '')
-                : session.title
-            }
-          : session
-      ));
+    // Mark message as being saved
+    setSavingMessages(prev => new Set(prev).add(newMessage.id));
 
-      // Update title in Supabase if it changed
-      const currentSession = sessions.find(s => s.id === currentSessionId);
-      if (currentSession && currentSession.title === 'New Chat' && message.type === 'user') {
-        const newTitle = message.content.slice(0, 50) + (message.content.length > 50 ? '...' : '');
-        await updateChatSession(currentSessionId, { title: newTitle });
+    // Retry logic for saving to Supabase
+    const saveWithRetry = async (retries = 3): Promise<void> => {
+      try {
+        // Add to Supabase
+        await createChatMessage(convertLocalMessageToDB(newMessage, currentSessionId));
+
+        // Update title in Supabase if it changed
+        const currentSession = sessions.find(s => s.id === currentSessionId);
+        if (currentSession && currentSession.title === 'New Chat' && message.type === 'user') {
+          const newTitle = message.content.slice(0, 50) + (message.content.length > 50 ? '...' : '');
+          await updateChatSession(currentSessionId, { title: newTitle });
+        }
+
+        // Mark as successfully saved
+        setSavingMessages(prev => {
+          const newSet = new Set(prev);
+          newSet.delete(newMessage.id);
+          return newSet;
+        });
+
+        // Remove from failed messages if it was there
+        setFailedMessages(prev => {
+          const newSet = new Set(prev);
+          newSet.delete(newMessage.id);
+          return newSet;
+        });
+
+      } catch (error) {
+        console.error(`Failed to save message to Supabase (attempt ${4 - retries}/3):`, error);
+
+        if (retries > 1) {
+          // Wait with exponential backoff
+          await new Promise(resolve => setTimeout(resolve, (4 - retries) * 1000));
+          return saveWithRetry(retries - 1);
+        } else {
+          // Mark as failed
+          setSavingMessages(prev => {
+            const newSet = new Set(prev);
+            newSet.delete(newMessage.id);
+            return newSet;
+          });
+          setFailedMessages(prev => new Set(prev).add(newMessage.id));
+
+          // Store in localStorage as backup
+          try {
+            const pendingMessages = JSON.parse(localStorage.getItem('pending-messages') || '[]');
+            pendingMessages.push({
+              message: newMessage,
+              sessionId: currentSessionId,
+              timestamp: Date.now()
+            });
+            localStorage.setItem('pending-messages', JSON.stringify(pendingMessages));
+          } catch (storageError) {
+            console.error('Failed to store message in localStorage backup:', storageError);
+          }
+        }
       }
+    };
+
+    // Start saving process
+    saveWithRetry();
+  };
+
+  const retryFailedMessages = async () => {
+    const failedMessageIds = Array.from(failedMessages);
+    if (failedMessageIds.length === 0) return;
+
+    // Get pending messages from localStorage
+    try {
+      const pendingMessages = JSON.parse(localStorage.getItem('pending-messages') || '[]');
+      const messagesToRetry = pendingMessages.filter((item: any) =>
+        failedMessageIds.includes(item.message.id)
+      );
+
+      for (const item of messagesToRetry) {
+        await addMessageToCurrentSession(item.message);
+      }
+
+      // Remove retried messages from localStorage
+      const remainingPending = pendingMessages.filter((item: any) =>
+        !failedMessageIds.includes(item.message.id)
+      );
+      localStorage.setItem('pending-messages', JSON.stringify(remainingPending));
     } catch (error) {
-      console.error('Failed to add message to Supabase:', error);
-      // Update local state anyway
-      setSessions(prev => prev.map(session =>
-        session.id === currentSessionId
-          ? {
-              ...session,
-              messages: [...session.messages, newMessage],
-              updatedAt: new Date(),
-              title: session.title === 'New Chat' && message.type === 'user'
-                ? message.content.slice(0, 50) + (message.content.length > 50 ? '...' : '')
-                : session.title
-            }
-          : session
-      ));
+      console.error('Failed to retry failed messages:', error);
     }
   };
 
-  const switchToSession = (sessionId: string) => {
-    setCurrentSessionId(sessionId);
-  };
+  // Process pending messages on load
+  useEffect(() => {
+    if (!isLoading && user && currentSessionId) {
+      const processPendingMessages = async () => {
+        try {
+          const pendingMessages = JSON.parse(localStorage.getItem('pending-messages') || '[]');
+          const currentSessionPending = pendingMessages.filter((item: any) =>
+            item.sessionId === currentSessionId
+          );
+
+          for (const item of currentSessionPending) {
+            // Only add if not already in the session
+            const currentSession = sessions.find(s => s.id === currentSessionId);
+            const messageExists = currentSession?.messages.some(m => m.id === item.message.id);
+            if (!messageExists) {
+              await addMessageToCurrentSession(item.message);
+            }
+          }
+
+          // Clean up processed messages
+          const remainingPending = pendingMessages.filter((item: any) =>
+            item.sessionId !== currentSessionId
+          );
+          localStorage.setItem('pending-messages', JSON.stringify(remainingPending));
+        } catch (error) {
+          console.error('Failed to process pending messages:', error);
+        }
+      };
+
+      processPendingMessages();
+    }
+  }, [isLoading, user, currentSessionId, sessions]);
+
+  // Periodically retry failed messages
+  useEffect(() => {
+    if (failedMessages.size > 0) {
+      const retryInterval = setInterval(() => {
+        retryFailedMessages();
+      }, 30000); // Retry every 30 seconds
+
+      return () => clearInterval(retryInterval);
+    }
+  }, [failedMessages.size]);
 
   const deleteSession = async (sessionId: string) => {
     try {
@@ -404,6 +509,15 @@ export const useChatHistory = () => {
       const remainingSessions = sessions.filter(session => session.id !== sessionId);
       setCurrentSessionId(remainingSessions.length > 0 ? remainingSessions[0].id : null);
     }
+  };
+
+  const switchToSession = (sessionId: string) => {
+    // Prevent switching if there are messages currently being saved
+    if (savingMessages.size > 0) {
+      console.warn('Cannot switch sessions while messages are being saved');
+      return;
+    }
+    setCurrentSessionId(sessionId);
   };
 
   const clearAllSessions = async () => {
@@ -431,11 +545,14 @@ export const useChatHistory = () => {
     currentSessionId,
     currentSession: getCurrentSession(),
     isLoading,
+    savingMessages,
+    failedMessages,
     createNewSession,
     switchToSession,
     addMessageToCurrentSession,
     updateCurrentSession,
     deleteSession,
-    clearAllSessions
+    clearAllSessions,
+    retryFailedMessages
   };
 };

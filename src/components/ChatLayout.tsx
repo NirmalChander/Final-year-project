@@ -36,7 +36,10 @@ const ChatLayout = () => {
     createNewSession,
     addMessageToCurrentSession,
     switchToSession,
-    isLoading: chatLoading
+    isLoading: chatLoading,
+    savingMessages,
+    failedMessages,
+    retryFailedMessages
   } = useChatHistory();
 
   // Auto-minimize sidebar on mobile
@@ -138,7 +141,7 @@ const ChatLayout = () => {
 
         {/* Messages Area */}
         <div className="flex-1 overflow-hidden">
-          <ChatMessages messages={messages} isLoading={isLoading} user={user} />
+          <ChatMessages messages={messages} isLoading={isLoading} user={user} savingMessages={savingMessages} failedMessages={failedMessages} onRetryFailedMessages={retryFailedMessages} />
         </div>
 
         {/* Input Area */}

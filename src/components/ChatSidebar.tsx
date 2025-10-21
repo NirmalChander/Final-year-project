@@ -59,8 +59,8 @@ const ChatSidebar = ({
               </Avatar>
               {!minimized && (
                 <div className="flex-1 min-w-0">
-                  <h2 className="text-[11px] sm:text-sm font-semibold text-foreground truncate leading-tight">{user.name}</h2>
-                  <p className="text-[9px] sm:text-xs text-muted-foreground truncate leading-tight">{user.email}</p>
+                  <h2 className="text-[11px] sm:text-sm font-semibold text-foreground truncate leading-tight">{user.name.length > 20 ? user.name.substring(0, 15) + '...' : user.name}</h2>
+                  <p className="text-[9px] sm:text-xs text-muted-foreground truncate leading-tight">{user.email.length > 25 ? user.email.substring(0, 20) + '...' : user.email}</p>
                 </div>
               )}
             </div>
@@ -150,7 +150,7 @@ const ChatSidebar = ({
                                 ? 'text-primary'
                                 : 'text-foreground group-hover:text-primary'
                             }`}>
-                              {session.title.length > 10 ? `${session.title.substring(0, 10)}...` : session.title}
+                              {session.title.length > 20 ? `${session.title.substring(0, 20)}...` : session.title}
                             </p>
                             <p className="text-xs text-muted-foreground mt-1 truncate">
                               {new Date(session.updatedAt).toLocaleDateString('en-US', {

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Scale, User, BookOpen, ChevronDown, ChevronRight, Check, Phone } from "lucide-react";
+import { Scale, User, BookOpen, ChevronDown, ChevronRight, Check, Phone, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -35,9 +35,12 @@ interface ChatMessagesProps {
   messages: Message[];
   isLoading?: boolean;
   user?: User | null;
+  savingMessages?: Set<string>;
+  failedMessages?: Set<string>;
+  onRetryFailedMessages?: () => void;
 }
 
-const ChatMessages = ({ messages, isLoading = false, user }: ChatMessagesProps) => {
+const ChatMessages = ({ messages, isLoading = false, user, savingMessages = new Set(), failedMessages = new Set(), onRetryFailedMessages }: ChatMessagesProps) => {
   const bottomRef = useRef<HTMLDivElement | null>(null);
   const scrollAreaRef = useRef<HTMLDivElement | null>(null);
   const [expandedReferences, setExpandedReferences] = useState<Set<string>>(new Set());
@@ -101,6 +104,19 @@ const ChatMessages = ({ messages, isLoading = false, user }: ChatMessagesProps) 
 
   return (
     <div className="relative h-full min-h-0">
+      {failedMessages.size > 0 && onRetryFailedMessages && (
+        <div className="absolute top-2 left-1/2 transform -translate-x-1/2 z-10">
+          <Button
+            onClick={onRetryFailedMessages}
+            variant="outline"
+            size="sm"
+            className="bg-red-50 dark:bg-red-950/20 border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-950/30"
+          >
+            <RotateCcw className="h-4 w-4 mr-2" />
+            Retry {failedMessages.size} failed message{failedMessages.size > 1 ? 's' : ''}
+          </Button>
+        </div>
+      )}
       <ScrollArea ref={scrollAreaRef} className="h-full min-h-0">
         <div className="max-w-full sm:max-w-4xl mx-auto space-y-4 sm:space-y-6 px-3 sm:px-6 pt-2">
           {messages.map((message) => (
@@ -303,8 +319,22 @@ const ChatMessages = ({ messages, isLoading = false, user }: ChatMessagesProps) 
                         </div>
                       )}
                     </div>
-                    <span className="text-xs text-muted-foreground mt-2 block">
+                    <span className="text-xs text-muted-foreground mt-2 block flex items-center gap-1">
                       {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      {savingMessages.has(message.id) && (
+                        <div className="flex items-center gap-1 text-amber-600 dark:text-amber-400">
+                          <div className="w-3 h-3 border-2 border-amber-600 dark:border-amber-400 border-t-transparent rounded-full animate-spin"></div>
+                          <span className="text-xs">Saving...</span>
+                        </div>
+                      )}
+                      {failedMessages.has(message.id) && (
+                        <div className="flex items-center gap-1 text-red-600 dark:text-red-400">
+                          <div className="w-3 h-3 rounded-full bg-red-600 dark:bg-red-400 flex items-center justify-center">
+                            <span className="text-xs text-white">!</span>
+                          </div>
+                          <span className="text-xs">Failed to save</span>
+                        </div>
+                      )}
                     </span>
                   </div>
                 </div>
