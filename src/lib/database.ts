@@ -14,9 +14,10 @@ export interface ChatMessage {
   type: 'user' | 'ai';
   content: string;
   timestamp: string;
-  legal_references?: Array<{ section: string; description: string }>;
+  legal_references?: Array<{ section: string; description: string; url?: string }>;
   action_steps?: Array<{ step: string; description: string }>;
   contact_info?: Array<{ department: string; helpline: string; type: 'phone' | 'email' | 'website'; description?: string }>;
+  similar_cases?: Array<{ title: string; url: string; description: string; date?: string }>;
 }
 
 // Chat Sessions
@@ -95,7 +96,7 @@ export const getChatMessages = async (sessionId: string): Promise<ChatMessage[]>
   return data || [];
 };
 
-export const updateChatMessage = async (messageId: string, updates: Partial<Pick<ChatMessage, 'content' | 'legal_references' | 'action_steps' | 'contact_info'>>): Promise<ChatMessage> => {
+export const updateChatMessage = async (messageId: string, updates: Partial<Pick<ChatMessage, 'content' | 'legal_references' | 'action_steps' | 'contact_info' | 'similar_cases'>>): Promise<ChatMessage> => {
   const { data, error } = await supabase
     .from('chat_messages')
     .update(updates)
