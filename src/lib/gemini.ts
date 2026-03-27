@@ -106,7 +106,7 @@ Department Name - Website: https://www.google.com/search?q=Department+Name+offic
 - Include 1-2 real, similar case news articles, precedent cases, or real-life examples.
 - CRITICAL: AI models often hallucinate fake news URLs that result in broken 404 links. To avoid this, DO NOT provide direct news website links. Instead, provide a Google Search URL for the case or topic.
 - Output similar cases exactly in this bullet-point format: ###CASES###\n* Case Title | https://www.google.com/search?q=Your+Search+Query+Here | Brief Description | YYYY-MM-DD\n* Another Case | https://www.google.com/search?q=Another+Query | Description | \n###ENDCASES###
-- For Indian legal matters, include contacts for: Legal Aid Services, State Legal Services Authority, Police (100), Women Helpline (181), Child Helpline (1098), Cyber Crime Helpline, Consumer Court, etc.
+- IMPORTANT: ONLY include contacts that are STRICTLY RELEVANT to the user's specific context. Do not include generic contacts (like Women Helpline, Police, or Cyber Crime) unless the query specifically pertains to those topics.
 - End with one-line disclaimer: "Consult a qualified lawyer for specific advice."
 - Do not add extra commentary.
 
@@ -435,7 +435,7 @@ Response:`;
     const lowerQuery = query.toLowerCase();
 
     // Emergency contacts
-    if (lowerQuery.includes('emergency') || lowerQuery.includes('urgent') || lowerQuery.includes('help')) {
+    if (lowerQuery.includes('emergency') || lowerQuery.includes('urgent') || lowerQuery.includes('attack') || lowerQuery.includes('danger') || lowerQuery.includes('assault')) {
       contacts.push({
         department: 'Police Emergency',
         helpline: '100',
@@ -445,7 +445,7 @@ Response:`;
     }
 
     // Women-related issues
-    if (lowerQuery.includes('women') || lowerQuery.includes('domestic violence') || lowerQuery.includes('harassment')) {
+    if (lowerQuery.match(/\bwomen\b/) || lowerQuery.includes('domestic violence') || lowerQuery.includes('dowry') || lowerQuery.includes('harassment')) {
       contacts.push({
         department: 'Women Helpline',
         helpline: '181',
